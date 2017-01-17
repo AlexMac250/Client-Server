@@ -14,7 +14,9 @@ public class CommandsHandler {
                     break;
 
                 case "connection":
-                    System.out.println("connection: "+message[1]);
+                    if (Boolean.parseBoolean(message[1])){
+                        Client.isConnected = true;
+                    }
                     break;
             }
         } catch (Exception e){

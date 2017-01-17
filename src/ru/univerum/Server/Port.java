@@ -6,9 +6,12 @@ package ru.univerum.Server;
 public class Port {
     int port;
     int countConnections;
-    Connection[] connections = new Connection[15];
+    UserConnection[] userConnections = new UserConnection[15];
 
     Port(int port){
         this.port = port;
+        countConnections = 0;
     }
+
+
 }

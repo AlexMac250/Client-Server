@@ -34,29 +34,20 @@ public class Service {
         }
         return ADDRESS;
     }
-    @SuppressWarnings("unused")
-    public static InetAddress getAddress(String address) {
-        InetAddress ADDRESS = null;
-        try {
-            ADDRESS = InetAddress.getByName(address);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return ADDRESS;
-    }
 
     static void setPorts(int fP, int eP){
         for (int i = fP; i < eP; i++) {
             ports.add(new Port(i));
         }
-        Server.out.printMessage("ports created");
+        Server.out.printMessage("Открыты порты с "+fP+" по "+eP);
     }
-    public static Port getOpenPort(Connection connection){
+
+    public static Port getOpenPort(UserConnection userConnection){
         for (Port port : ports){
-            if(port.connections.length < 15000){
-                port.connections[port.connections.length-1] = connection;
+            if(port.countConnections < 15){
+                port.userConnections[port.userConnections.length-1] = userConnection;
                 port.countConnections++;
-                System.out.println("issued port: "+port.port);
+                System.out.println("Выдан порт: "+port.port);
                 return port;
             }
         }

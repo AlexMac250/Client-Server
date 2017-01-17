@@ -11,13 +11,13 @@ import static ru.univerum.Server.Service.*;
 public class Server extends Thread {
     InetAddress ADDRESS;
     ServerSocket serverSocket;
-    List<Connection> connections = new ArrayList<>();
+    List<UserConnection> userConnections = new ArrayList<>();
     Server(){
         try {
             ADDRESS = getAddress();
-            serverSocket = new ServerSocket(2900, 2, ADDRESS);
-            setPorts(20000, 20500);
-            out.printMessage("created server socket on " + ADDRESS);
+            serverSocket = new ServerSocket(2905, 2, ADDRESS);
+            out.printMessage("Открыт сокет на " + ADDRESS.getHostAddress() +":"+serverSocket.getLocalPort());
+            setPorts(40000, 40500);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -25,10 +25,10 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        out.printMessage("waiting for connection...");
+        out.printMessage("Ожидает подключений...");
         try{
             while (!interrupted()){
-                connections.add(new Connection(serverSocket.accept(), this));
+                userConnections.add(new UserConnection(serverSocket.accept(), this));
             }
         } catch (IOException e){
             out.printException(e.toString());
@@ -37,16 +37,16 @@ public class Server extends Thread {
 
     static class out {
         static void printMessage(String string){
-            System.out.println("[MESSAGE]: " + string);
+            System.out.println("[СООБЩЕНИЕ]: " + string);
         }
         static void printException(String exception){
-            System.err.println("[EXCEPTION]: " + exception);
+            System.err.println("[ИСКЛЮЧЕНИЕ]: " + exception);
         }
         static void printWarning(String warning){
-            System.out.println("[WARNING]: "+ warning);
+            System.out.println("[ВНИМАНИЕ]: "+ warning);
         }
         static void printError(String error){
-            System.err.println("![ERROR]: "+error);
+            System.err.println("![ОШИБКА]: "+error);
         }
     }
 }

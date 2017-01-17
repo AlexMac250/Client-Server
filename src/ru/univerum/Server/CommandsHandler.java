@@ -1,12 +1,11 @@
 package ru.univerum.Server;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandsHandler extends Connection{
+public class CommandsHandler extends UserConnection {
 
     CommandsHandler(Socket socket, Server server) {
         super(socket, server);
@@ -15,8 +14,8 @@ public class CommandsHandler extends Connection{
     public void handler(String[] message){
         try{
             switch (message[0]){
-                case "connection":
-                    new DataOutputStream(super.socket.getOutputStream()).writeUTF("connection yes");
+                case "userConnection":
+                    new DataOutputStream(super.socket.getOutputStream()).writeUTF("userConnection yes");
                     break;
             }
         } catch (Exception e){

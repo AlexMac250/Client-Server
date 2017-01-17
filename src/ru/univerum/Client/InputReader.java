@@ -9,7 +9,6 @@ import static ru.univerum.Client.CommandsHandler.rebuildMessage;
 public class InputReader extends Thread {
     Socket socket;
     DataInputStream dataInputStream;
-    int errCount = 0;
 
     InputReader(Socket socket){
         this.socket = socket;
@@ -24,13 +23,12 @@ public class InputReader extends Thread {
                 CommandsHandler.handler(rebuildMessage(dataInputStream.readUTF()));
             }
         } catch (IOException e) {
-            errCount++;
+            System.err.println("InputReader has crashed (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
             e.printStackTrace();
             interrupt();
-            if (errCount <= 5) start();
-            else System.out.println("InputReader has crashed (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
         } finally {
             interrupt();
+            Client.isConnected = false;
         }
     }
 }

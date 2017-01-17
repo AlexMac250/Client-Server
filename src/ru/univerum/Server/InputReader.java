@@ -5,38 +5,41 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class InputReader extends Thread {
-    Connection connection;
+    UserConnection userConnection;
     Socket socket;
     DataInputStream dataInputStream;
-    int errCount = 0;
+    boolean run = false;
 
-    InputReader(Socket socket, Connection connection){
+    InputReader(Socket socket, UserConnection userConnection){
         this.socket = socket;
-        this.connection = connection;
+        this.userConnection = userConnection;
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        run = true;
         start();
     }
 
     @Override
     public void run() {
         try{
-            while (socket.isConnected()){
-                connection.commandsHandler.handler(connection.commandsHandler.rebuildMessage(dataInputStream.readUTF()));
+            while (run){
+                userConnection.commandsHandler.handler(userConnection.commandsHandler.rebuildMessage(dataInputStream.readUTF()));
             }
         } catch (IOException e) {
-            errCount++;
-            Server.out.printException("Exceprion on InputReader "+errCount);
             e.printStackTrace();
             interrupt();
-            if (errCount <= 5) start();
-            else Server.out.printException("InputReader has crashed (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
+            Server.out.printException("InputReader неожиданно остановился (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
         } finally {
-            Server.out.printMessage("InputReader interrupted");
             interrupt();
         }
+    }
+
+    public void close() throws IOException {
+        run = false;
+        dataInputStream.close();
+        interrupt();
     }
 }
