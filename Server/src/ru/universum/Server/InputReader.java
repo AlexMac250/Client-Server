@@ -1,4 +1,4 @@
-package ru.univerum.Server;
+package ru.universum.Server;
 
 import java.io.DataInputStream;
 import java.io.IOException;

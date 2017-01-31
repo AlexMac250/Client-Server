@@ -1,4 +1,4 @@
-package ru.univerum.Server;
+package ru.universum.Server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -55,6 +55,8 @@ public class UserConnection extends Thread{
         try {
             dataOutputStream.writeUTF("newport "+newport.port);
             port = newport;
+            inputReader.close();
+            dataOutputStream.close();
             socket = new ServerSocket(newport.port, 2, server.ADDRESS).accept();
             setDOStream();
         } catch (IOException e) {

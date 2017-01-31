@@ -1,4 +1,6 @@
-package ru.univerum.Server;
+package ru.universum.Server;
+
+import ru.universum.Server.sql.DataBase;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -6,17 +8,18 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.univerum.Server.Service.*;
+import static ru.universum.Server.Service.*;
 
 public class Server extends Thread {
     InetAddress ADDRESS;
     ServerSocket serverSocket;
     List<UserConnection> userConnections = new ArrayList<>();
     Server(){
+        DataBase dataBase = new DataBase("jdbc:mysql://localhost:3306/serverDB", "root", "rfccbjgtz");
         try {
             ADDRESS = getAddress();
             serverSocket = new ServerSocket(2905, 2, ADDRESS);
-            out.printMessage("Открыт сокет на " + ADDRESS.getHostAddress() +":"+serverSocket.getLocalPort());
+            out.printMessage("Created socket on " + ADDRESS.getHostAddress() +":"+serverSocket.getLocalPort());
             setPorts(40000, 40500);
         } catch (IOException e) {
             e.printStackTrace();
@@ -25,7 +28,7 @@ public class Server extends Thread {
 
     @Override
     public void run() {
-        out.printMessage("Ожидает подключений...");
+        out.printMessage("Waiting to connect...");
         try{
             while (!interrupted()){
                 userConnections.add(new UserConnection(serverSocket.accept(), this));
@@ -35,17 +38,17 @@ public class Server extends Thread {
         }
     }
 
-    static class out {
-        static void printMessage(String string){
+    public static class out {
+        public static void printMessage(String string){
             System.out.println("[СООБЩЕНИЕ]: " + string);
         }
-        static void printException(String exception){
+        public static void printException(String exception){
             System.err.println("[ИСКЛЮЧЕНИЕ]: " + exception);
         }
-        static void printWarning(String warning){
+        public static void printWarning(String warning){
             System.out.println("[ВНИМАНИЕ]: "+ warning);
         }
-        static void printError(String error){
+        public static void printError(String error){
             System.err.println("![ОШИБКА]: "+error);
         }
     }

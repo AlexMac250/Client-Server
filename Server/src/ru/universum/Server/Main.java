@@ -1,4 +1,4 @@
-package ru.univerum.Server;
+package ru.universum.Server;
 
 public class Main {
 

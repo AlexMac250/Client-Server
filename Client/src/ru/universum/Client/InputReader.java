@@ -1,10 +1,10 @@
-package ru.univerum.Client;
+package ru.universum.Client;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static ru.univerum.Client.CommandsHandler.rebuildMessage;
+import static ru.universum.Client.CommandsHandler.rebuildMessage;
 
 public class InputReader extends Thread {
     Socket socket;

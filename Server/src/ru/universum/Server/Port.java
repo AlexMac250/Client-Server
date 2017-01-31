@@ -1,4 +1,4 @@
-package ru.univerum.Server;
+package ru.universum.Server;
 
 /**
  * Created by Aleksandr on 15.01.2017.

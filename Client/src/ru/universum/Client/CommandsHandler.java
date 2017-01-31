@@ -1,31 +1,30 @@
-package ru.univerum.Server;
+package ru.universum.Client;
 
-import java.io.DataOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandsHandler extends UserConnection {
-
-    CommandsHandler(Socket socket, Server server) {
-        super(socket, server);
-    }
-
-    public void handler(String[] message){
+public class CommandsHandler {
+    public static void handler(String[] message){
         try{
             switch (message[0]){
-                case "userConnection":
-                    new DataOutputStream(super.socket.getOutputStream()).writeUTF("userConnection yes");
+                case "newport":
+                    System.out.println("new port!!");
+                    int newport = Integer.parseInt(message[1]);
+                    Client.connect(newport);
+                    break;
+
+                case "connection":
+                    if (Boolean.parseBoolean(message[1])){
+                        Client.isConnected = true;
+                    }
                     break;
             }
         } catch (Exception e){
 
         }
     }
-
-
-
-    public String[] rebuildMessage(String message){
+    @SuppressWarnings("Duplicates")
+    static String[] rebuildMessage(String message){
         if(!message.equals("")) {
             List<StringBuilder> sl = new ArrayList<>();
             char[] c = message.toCharArray();
