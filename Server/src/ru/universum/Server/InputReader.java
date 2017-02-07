@@ -8,7 +8,6 @@ public class InputReader extends Thread {
     UserConnection userConnection;
     Socket socket;
     DataInputStream dataInputStream;
-    boolean run = false;
 
     InputReader(Socket socket, UserConnection userConnection){
         this.socket = socket;
@@ -18,27 +17,25 @@ public class InputReader extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        run = true;
         start();
     }
 
     @Override
     public void run() {
         try{
-            while (run){
+            while (!interrupted()){
                 userConnection.commandsHandler.handler(userConnection.commandsHandler.rebuildMessage(dataInputStream.readUTF()));
             }
         } catch (IOException e) {
+            Server.out.printException("InputReader неожиданно остановился (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
             e.printStackTrace();
             interrupt();
-            Server.out.printException("InputReader неожиданно остановился (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
         } finally {
             interrupt();
         }
     }
 
     public void close() throws IOException {
-        run = false;
         dataInputStream.close();
         interrupt();
     }

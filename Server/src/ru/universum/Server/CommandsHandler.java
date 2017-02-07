@@ -25,7 +25,7 @@ public class CommandsHandler extends UserConnection {
 
 
 
-    public String[] rebuildMessage(String message){
+    String[] rebuildMessage(String message){
         if(!message.equals("")) {
             List<StringBuilder> sl = new ArrayList<>();
             char[] c = message.toCharArray();

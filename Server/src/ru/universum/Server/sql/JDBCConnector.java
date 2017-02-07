@@ -27,7 +27,11 @@ class JDBCConnector {
             isConnected = true;
         } catch (SQLException e) {
             System.err.println("Could not load database driver class!");
-            disconnect();
+            try {
+                if (!connection.isClosed()) disconnect();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             isConnected = false;
         }
     }

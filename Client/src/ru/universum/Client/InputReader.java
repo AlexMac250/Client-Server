@@ -12,15 +12,25 @@ public class InputReader extends Thread {
 
     InputReader(Socket socket){
         this.socket = socket;
+        try {
+            dataInputStream = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         start();
     }
 
     @Override
     public void run() {
+        System.out.println("InputReader started");
         try{
-            dataInputStream = new DataInputStream(socket.getInputStream());
-            while (socket.isConnected()){
-                CommandsHandler.handler(rebuildMessage(dataInputStream.readUTF()));
+            while (!interrupted()){
+                String message;
+                if (!socket.isClosed()){
+                    message = dataInputStream.readUTF();
+                    String[] message2 = rebuildMessage(message);
+                    CommandsHandler.handler(message2);
+                }
             }
         } catch (IOException e) {
             System.err.println("InputReader has crashed (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
@@ -30,5 +40,9 @@ public class InputReader extends Thread {
             interrupt();
             Client.isConnected = false;
         }
+    }
+
+    public void CLOSE(){
+        interrupt();
     }
 }

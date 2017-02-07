@@ -10,7 +10,7 @@ public class CommandsHandler {
                 case "newport":
                     System.out.println("new port!!");
                     int newport = Integer.parseInt(message[1]);
-                    Client.connect(newport);
+                    Connection.reconnect(newport);
                     break;
 
                 case "connection":
@@ -18,9 +18,12 @@ public class CommandsHandler {
                         Client.isConnected = true;
                     }
                     break;
-            }
-        } catch (Exception e){
 
+                case "":
+            }
+            System.out.println("---->> "+message[0]+" "+message[1]+" "+message[2]);
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
     @SuppressWarnings("Duplicates")
@@ -46,6 +49,6 @@ public class CommandsHandler {
             }
             return s;
         }
-        return null;
+        return new String[3];
     }
 }

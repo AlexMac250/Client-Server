@@ -19,15 +19,14 @@ public class UserConnection extends Thread{
         try {
             this.server = server;
             this.socket = socket;
-            inputReader = new InputReader(socket, this);
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             setNewPort();
+            setDOStream();
             start();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                inputReader.close();
                 dataOutputStream.close();
                 socket.close();
             } catch (IOException ignored) {
@@ -53,12 +52,12 @@ public class UserConnection extends Thread{
     private void setNewPort(){
         Port newport = Service.getOpenPort(this);
         try {
+            ServerSocket serverSocket = new ServerSocket(newport.port, 2, server.ADDRESS);
             dataOutputStream.writeUTF("newport "+newport.port);
-            port = newport;
-            inputReader.close();
             dataOutputStream.close();
-            socket = new ServerSocket(newport.port, 2, server.ADDRESS).accept();
-            setDOStream();
+            socket.close();
+            port = newport;
+            socket = serverSocket.accept();
         } catch (IOException e) {
             e.printStackTrace();
         }
