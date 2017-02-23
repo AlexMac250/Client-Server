@@ -1,10 +1,13 @@
 package ru.universum.Server.sql;
 
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
+import ru.universum.Server.Out;
+
 import java.sql.*;
 
 class JDBCConnector {
 //   "jdbc:mysql://localhost:3306/serverDB";
+    static Out out = new Out("JDBCConnector");
 
     Connection connection;
     boolean isConnected = false;
@@ -25,12 +28,14 @@ class JDBCConnector {
             DriverManager.registerDriver(driver);
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             isConnected = true;
+            out.printMessage("Connected to DATABASE");
         } catch (SQLException e) {
-            System.err.println("Could not load database driver class!");
+            System.err.println("Could not connect to database!");
             try {
                 if (!connection.isClosed()) disconnect();
             } catch (SQLException e1) {
                 e1.printStackTrace();
+
             }
             isConnected = false;
         }

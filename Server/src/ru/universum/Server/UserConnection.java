@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class UserConnection extends Thread{
+    private Out out = new Out("UserConnection");
+
     Port port;
     Socket socket;
     DataOutputStream dataOutputStream;
@@ -15,7 +17,7 @@ public class UserConnection extends Thread{
 
 
     UserConnection(Socket socket, Server server){
-        Server.out.printMessage("Новое подключение");
+        out.printMessage("Новое подключение");
         try {
             this.server = server;
             this.socket = socket;
@@ -30,7 +32,7 @@ public class UserConnection extends Thread{
                 dataOutputStream.close();
                 socket.close();
             } catch (IOException ignored) {
-                Server.out.printException("Иключение при закрытии соединения");
+                out.printException("Иключение при закрытии соединения");
             }
         }
     }
@@ -74,7 +76,7 @@ public class UserConnection extends Thread{
                setDOStream();
             }
         } else {
-            Server.out.printException("Socket not connected! "+socket.getInetAddress().getHostAddress());
+            out.printException("Socket not connected! "+socket.getInetAddress().getHostAddress());
         }
 
     }

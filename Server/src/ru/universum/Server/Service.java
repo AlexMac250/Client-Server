@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Service {
+    static Out out = new Out("Service");
+    
     public static List<Port> ports = new ArrayList<>();
     private static String ifases = null;
 
@@ -38,7 +40,7 @@ public class Service {
         for (int i = fP; i < eP; i++) {
             ports.add(new Port(i));
         }
-        Server.out.printMessage("Открыты порты с "+fP+" по "+eP);
+        out.printMessage("Открыты порты с "+fP+" по "+eP);
     }
 
     public static Port getOpenPort(UserConnection userConnection){

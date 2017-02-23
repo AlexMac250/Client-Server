@@ -11,11 +11,12 @@ import java.util.List;
 import static ru.universum.Server.Service.*;
 
 public class Server extends Thread {
+    private static Out out = new Out("Server");
     InetAddress ADDRESS;
     ServerSocket serverSocket;
     List<UserConnection> userConnections = new ArrayList<>();
     Server(){
-        DataBase dataBase = new DataBase("jdbc:mysql://localhost:3306/serverDB", "root", "rfccbjgtz");
+        DataBase dataBase = new DataBase("jdbc:mysql://10.0.0.252:63306/server", "root", "rfccbjgtz");
         try {
             ADDRESS = getAddress();
             serverSocket = new ServerSocket(2905, 2, ADDRESS);
@@ -35,21 +36,6 @@ public class Server extends Thread {
             }
         } catch (IOException e){
             out.printException(e.toString());
-        }
-    }
-
-    public static class out {
-        public static void printMessage(String string){
-            System.out.println("[СООБЩЕНИЕ]: " + string);
-        }
-        public static void printException(String exception){
-            System.err.println("[ИСКЛЮЧЕНИЕ]: " + exception);
-        }
-        public static void printWarning(String warning){
-            System.out.println("[ВНИМАНИЕ]: "+ warning);
-        }
-        public static void printError(String error){
-            System.err.println("![ОШИБКА]: "+error);
         }
     }
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class InputReader extends Thread {
+    static Out out = new Out("InputReader");
     UserConnection userConnection;
     Socket socket;
     DataInputStream dataInputStream;
@@ -27,7 +28,7 @@ public class InputReader extends Thread {
                 userConnection.commandsHandler.handler(userConnection.commandsHandler.rebuildMessage(dataInputStream.readUTF()));
             }
         } catch (IOException e) {
-            Server.out.printException("InputReader неожиданно остановился (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
+            out.printException("InputReader неожиданно остановился (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
             e.printStackTrace();
             interrupt();
         } finally {

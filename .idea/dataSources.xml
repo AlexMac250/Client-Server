@@ -7,11 +7,11 @@
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
       <jdbc-url>jdbc:derby:$PROJECT_DIR$/Server/src/ru/universum/Server/sql/lib\.</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="serverdb@localhost" uuid="3dffe02f-e0d6-4646-ae1d-887fce0c0c99">
+    <data-source source="LOCAL" name="server@10.0.0.252" uuid="e69133a0-bd97-4929-890f-c3227f5441e7">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/serverdb</jdbc-url>
+      <jdbc-url>jdbc:mysql://10.0.0.252:63306/server</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />
