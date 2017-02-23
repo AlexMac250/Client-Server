@@ -31,6 +31,7 @@ public class UserConnection extends Thread{
             try {
                 dataOutputStream.close();
                 socket.close();
+                port.closeConnection();
             } catch (IOException ignored) {
                 out.printException("Иключение при закрытии соединения");
             }
@@ -54,12 +55,11 @@ public class UserConnection extends Thread{
     private void setNewPort(){
         Port newport = Service.getOpenPort(this);
         try {
-            ServerSocket serverSocket = new ServerSocket(newport.port, 2, server.ADDRESS);
+            socket = newport.socket.accept();
             dataOutputStream.writeUTF("newport "+newport.port);
             dataOutputStream.close();
             socket.close();
             port = newport;
-            socket = serverSocket.accept();
         } catch (IOException e) {
             e.printStackTrace();
         }
