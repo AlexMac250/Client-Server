@@ -2,12 +2,14 @@ package ru.universum.Client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CommandsHandler {
     public static void handler(String[] message){
         try{
             switch (message[0]){
                 case "newport":
+                    TimeUnit.MILLISECONDS.sleep(1000);
                     System.out.println("new port!!");
                     int newport = Integer.parseInt(message[1]);
                     Connection.reconnect(newport);

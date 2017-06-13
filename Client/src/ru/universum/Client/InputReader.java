@@ -36,10 +36,14 @@ public class InputReader extends Thread {
             System.err.println("InputReader has crashed (Socket: "+socket.getInetAddress().getHostAddress()+":"+socket.getPort()+")");
             e.printStackTrace();
             interrupt();
+            return;
         } finally {
             interrupt();
             Client.isConnected = false;
         }
+    }
+    private void read(){
+
     }
 
     public void CLOSE(){

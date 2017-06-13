@@ -24,19 +24,14 @@ class JDBCConnector {
 
     void connect(){
         try {
-            Driver driver = new FabricMySQLDriver();
-            DriverManager.registerDriver(driver);
+//            Driver driver = new FabricMySQLDriver();
+//            DriverManager.registerDriver(driver);
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             isConnected = true;
             out.printMessage("Connected to DATABASE");
         } catch (SQLException e) {
             System.err.println("Could not connect to database!");
-            try {
-                if (!connection.isClosed()) disconnect();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-
-            }
+            System.err.println("Exception: "+e);
             isConnected = false;
         }
     }

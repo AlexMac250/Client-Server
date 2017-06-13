@@ -16,7 +16,9 @@ public class Connection {
     static boolean isConnected;
 
     static void connect() {
-        connection = new Connection(Client.port);
+        if (connection != null) {
+            if (connection.socket.isClosed()) connection = new Connection(Client.port);
+        } else connection = new Connection(Client.port);
     }
     static void reconnect(int port){
         isConnected = false;

@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Client {
     static int port = 2905;
-    static String ADDRESS = "10.0.0.9";
+    static String ADDRESS = "10.0.0.10";
     static boolean isConnected = false;
     public static void main(String[] args) {
         Connection.connect();

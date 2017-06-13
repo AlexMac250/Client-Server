@@ -1,9 +1,6 @@
 package ru.universum.Server.sql;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DataBase {
     JDBCConnector connector;
@@ -29,7 +26,7 @@ public class DataBase {
          try {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
              while (resultSet.next()){
-                 System.out.println(resultSet.getInt("id")+", "+resultSet.getString("login")+", "+resultSet.getString("name")+", "+resultSet.getString("email"));
+                 System.out.println("\nID: "+resultSet.getInt("id")+"\nLOGIN: "+resultSet.getString("login")+"\nNAME: "+resultSet.getString("name")+"\nEMAIL: "+resultSet.getString("email")+"\n");
              }
          } catch (SQLException e) {
              e.printStackTrace();
